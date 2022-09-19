@@ -1,0 +1,134 @@
+1. setiap users punya 1 merchant 
+2.setiap merchant bisa banyak outlet 
+3. setiap outlets bisa banyak transaction
+
+
+
+G.
+merchant id di transaction harus nya tidak perlu ada lagi 
+logika nya kalau sudah ada outlet id itu gak perlu lagi  merchant id karna dari outlet sudah tau siapa merchan nya 
+
+
+
+go run main.go db:migrate untuk migrate ke db
+go run main.go db:seed
+
+
+
+
+soal nomor 1 akhir 
+
+bentuk tabel ya nanti query nya apa 
+hasil nya gimana 
+
+
+
+
+generate temporary tabel 
+
+karna mau di pagination 
+
+
+
+select tbl_tanggal.gen_date,tbl_transaction.merchant_id,ifnull(tbl_transaction.omset,0) as omset from (select * from 
+(select adddate('1970-01-01',t4*10000 + t3*1000 + t2*100 + t1*10 + t0) gen_date from
+ (select 0 t0 union select 1 union select 2 union select 3 union select 4 union select 5 union select 6 union select 7 union select 8 union select 9) t0,
+ (select 0 t1 union select 1 union select 2 union select 3 union select 4 union select 5 union select 6 union select 7 union select 8 union select 9) t1,
+ (select 0 t2 union select 1 union select 2 union select 3 union select 4 union select 5 union select 6 union select 7 union select 8 union select 9) t2,
+ (select 0 t3 union select 1 union select 2 union select 3 union select 4 union select 5 union select 6 union select 7 union select 8 union select 9) t3,
+ (select 0 t4 union select 1 union select 2 union select 3 union select 4 union select 5 union select 6 union select 7 union select 8 union select 9) t4) v
+where gen_date between '2021-11-01' and '2021-11-30') tbl_tanggal left join (SELECT merchant_id,date(created_at) as tanggal,sum(bill_total) as omset FROM `transactions` group by merchant_id,date(created_at)) tbl_transaction on tbl_tanggal.gen_date = tbl_transaction.tanggal
+
+
+
+
+///outlet
+select tbl_tanggal.gen_date,ifnull(tbl_transaction.merchant_name,'tes') as merchant_name,ifnull(tbl_transaction.outlet_name,'tes') as outlet_name,ifnull(tbl_transaction.omset,0) as omset from (select * from (select adddate('1970-01-01',t4*10000 + t3*1000 + t2*100 + t1*10 + t0) gen_date from (select 0 t0 union select 1 union select 2 union select 3 union select 4 union select 5 union select 6 union select 7 union select 8 union select 9) t0,(select 0 t1 union select 1 union select 2 union select 3 union select 4 union select 5 union select 6 union select 7 union select 8 union select 9) t1,(select 0 t2 union select 1 union select 2 union select 3 union select 4 union select 5 union select 6 union select 7 union select 8 union select 9) t2,(select 0 t3 union select 1 union select 2 union select 3 union select 4 union select 5 union select 6 union select 7 union select 8 union select 9) t3,(select 0 t4 union select 1 union select 2 union select 3 union select 4 union select 5 union select 6 union select 7 union select 8 union select 9) t4) v where gen_date between '2021-11-01' and '2021-11-30') tbl_tanggal left join (SELECT trx.merchant_id,m.merchant_name,o.outlet_name,date(trx.created_at) as tanggal,sum(trx.bill_total) as omset FROM `transactions` trx LEFT JOIN `merchants` m on m.id = trx.merchant_id LEFT JOIN `outlets` o on o.id = trx.outlet_id LEFT JOIN `users` u on u.id =m.user_id where u.id =1 and trx.outlet_id = 1 group by trx.merchant_id,trx.outlet_id,date(created_at)) tbl_transaction on tbl_tanggal.gen_date = tbl_transaction.tanggal;
+
+
+4 - 2 selisih 2
+
+input pertama 
+
+input kedua 
+
+input ketiga 
+
+mencari selisih dari input pertama dan input kedua 
+
+di for sebanyak dengan inputan ketiga 
+
+5 - 8 selisih 3
+
+
+mulai dari start 
+-> input bilangan 1
+->input bilangan 2
+->input bilangan 3
+
+
+->selisih  = bil 2 - bil 1
+
+-print(bil1)
+ 
+
+ x > 0 x+
+
+ print()
+
+
+
+
+
+logikanya element 1
+elemen 2 tambah selisi 
+
+
+
+
+
+
+jawaban nomor 4
+
+jika kasus yang pertama
+package main
+import "fmt"
+func BubbleSort(array[] float32)[]float32 {
+   for i:=0; i< len(array)-1; i++ {
+      for j:=0; j < len(array)-i-1; j++ {
+         if (array[j] < array[j+1]) {
+            	temp = angka[j+1]
+						angka[j +1] = angka[j]
+						angka[j] = temp
+         }
+      }
+   }
+   return array
+}
+func main() {
+   array:= []float32{4, -7, -5, 3, 3.3, 9, 0, 10, 0.2};
+   fmt.Println(BubbleSort(array))
+}
+
+
+Deklarasi 
+	Array float angka
+	Integer i
+	Float temp
+
+Deskripsi
+	for i = 0 ; i < angka.length-1 ; i++
+			for j = 0 ; j < angka.length-1 ; j++
+				if angka[i] > angka[i+1]
+					do 
+						temp = angka[j+1]
+						angka[j +1] = angka[j]
+						angka[j] = temp
+	write angka[]
+
+
+
+
+	temporary tabel
+
+	
